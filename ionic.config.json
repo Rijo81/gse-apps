@@ -1,0 +1,7 @@
+{
+  "name": "gse-apps",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
