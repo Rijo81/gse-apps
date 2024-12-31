@@ -1,16 +1,50 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'segments',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  }
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+
+  },
+
+  {
+    path: 'segments',
+    loadComponent: () => import('./segments/segments.component').then(m => m.SegmentsComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'state/list-state',
+    loadComponent: () => import('./state/list-states/list-states.component').then(m => m.ListStatesComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'list-categories',
+    loadComponent: () => import('./categories/list-categories/list-categories.component').then(m => m.ListCategoriesComponent),
+    canMatch: [AuthGuard]
+  },
+
+  {
+    path: 'rolls',
+    loadComponent: () => import('./auth/rolls/rolls.component').then(m => m.RollsComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'requests',
+    loadComponent: () => import('./requests/requestss/requestss.component').then(m => m.RequestssComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'typerequests',
+    loadComponent: () => import('./requests/typerequests/typerequests.component').then(m => m.TyperequestsComponent),
+    canMatch: [AuthGuard]
+  },
 ];
 
 @NgModule({

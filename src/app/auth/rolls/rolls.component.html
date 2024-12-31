@@ -1,0 +1,94 @@
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Roles</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-header class="d-flex-between">
+    <ion-label>
+      <h3>Hola, {{user.name}}</h3>
+      <h1>Buenos dias!</h1>
+    </ion-label>
+    <ion-avatar  (click)="presentClosePopover($event)" style="cursor: pointer;" class="icon-profile" *ngIf="userProfile">
+      <img alt="Imagen" [src]="userProfile" />
+    </ion-avatar>
+    <ion-popover  #popover triggerAction="hover" (didDismiss)="isClosePopoverOpen = false" [isOpen]="isClosePopoverOpen">
+      <ng-template>
+        <ion-content style="cursor: pointer;" class="ion-padding" (click)="closeSession()">Cerrar sesion!</ion-content>
+      </ng-template>
+    </ion-popover>
+  </ion-header>
+  <ion-label>
+    <h1 class="sub-title">Roles</h1>
+  </ion-label>
+
+  <ion-modal trigger="open-modal-rol" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Añadir Roles</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Crear Rol</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h3>Roles</h3>
+        <ion-item>
+          <ion-input type="text" label="Nombre del Rol" placeholder="Nombre" [(ngModel)]="rolsInput.name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="rolsInput.permition_categories">Categorias</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="rolsInput.permition_states">Estados</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="rolsInput.permition_users">Gestión de Usuarios</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="rolsInput.permition_viewsolic">Ver Solicitud</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="rolsInput.permition_requests">Solicitudes</ion-checkbox>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      @for (rol of rols; track $index) {
+        <ion-item>
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
+          </ion-avatar>
+          <ion-label>
+            <h3>{{rol.name}}</h3>
+          </ion-label>
+          <ion-icon slot="end" name="trash" style="color: red;" (click)="delRol(rol.id)"></ion-icon>
+           <!-- (click)="delRol(rol.id)" -->
+          <ion-icon slot="end" name="create" style="color: green;" (click)="openEditRoleModal(rol)" ></ion-icon>
+          <!-- (click)="updateRol(rol)" -->
+        </ion-item>
+      }
+    </ion-reorder-group>
+  </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="open-modal-rol" (click)="addRole()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+

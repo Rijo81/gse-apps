@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Solicitudes</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Selecione el Tipo de Solicitud</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Tipo de Solicitud</ion-label>
+        <ion-select [(ngModel)]="selectedTypeId" (ionChange)="onTypeChange()">
+          <ion-select-option *ngFor="let type of typeRequests" [value]="type.id">{{ type.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div *ngIf="selectedType">
+        <ion-list>
+          <ion-item *ngFor="let field of selectedType.fields">
+            <ion-label>{{ field.name }}</ion-label>
+            <ng-container [ngSwitch]="field.type">
+              <ion-input *ngSwitchCase="'string'" [(ngModel)]="formData[field.name]" placeholder="Enter text"></ion-input>
+              <ion-input *ngSwitchCase="'number'" type="number" [(ngModel)]="formData[field.name]" placeholder="Enter number"></ion-input>
+              <ion-select *ngSwitchCase="'list'" [(ngModel)]="formData[field.name]">
+                <ion-select-option *ngFor="let option of field.options" [value]="option">{{ option }}</ion-select-option>
+              </ion-select>
+              <ion-radio-group *ngSwitchCase="'radiobutton'" [(ngModel)]="formData[field.name]">
+                <ion-item *ngFor="let option of field.options">
+                  <ion-label>{{ option }}</ion-label>
+                  <ion-radio [value]="option"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+              <ion-input *ngSwitchCase="'document'" type="file" (change)="onFileChange($event, field.name)"></ion-input>
+              <ion-checkbox *ngSwitchCase="'checkbox'" [(ngModel)]="formData[field.name]"></ion-checkbox>
+            </ng-container>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" color="primary" (click)="saveRequest()">Enviar</ion-button>
+        <!-- <ion-list>
+          <ion-item *ngFor="let field of selectedType.fields">
+            <ion-label>{{ field.name }}</ion-label>
+            <ng-container [ngSwitch]="field.type">
+              <ion-input *ngSwitchCase="'string'" [(ngModel)]="formData[field.name]"></ion-input>
+              <ion-input *ngSwitchCase="'number'" type="number" [(ngModel)]="formData[field.name]"></ion-input>
+              <ion-input *ngSwitchCase="'document'" type="file" (change)="onFileChange($event, field.name)"></ion-input>
+              <ion-checkbox *ngSwitchCase="'checkbox'" [(ngModel)]="formData[field.name]"></ion-checkbox>
+            </ng-container>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" color="primary" (click)="saveRequest()">Submit Request</ion-button> -->
+        <ion-button (click)="clearLocalStorage()" expand="block" shape="round">
+          Limpiar LS
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-item *ngFor="let request of requests">
+      {{ request.typeName }} - {{ request.id }}
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
+  <!-- <form [formGroup]="requestsForm">
+    <ion-item>
+      <ion-label position="floating">Tipo de Solicitud</ion-label>
+      <ion-select formControlName="typeRequests" (ionChange)="onTypeRequestsChange($event)">
+        <ion-select-option *ngFor="let type of typeRequests" [value]="type">{{ type.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div formArrayName="fields">
+      <div *ngFor="let field of fields.controls; let i = index" [formGroupName]="i">
+        <ion-item>
+          <ion-label>{{ field.value.name }}</ion-label>
+          <ion-input *ngIf="field.value.type === 'texto'" formControlName="valor"></ion-input>
+          <ion-select *ngIf="field.value.type === 'lista'" formControlName="valor">
+            <ion-select-option *ngFor="let opcion of field.value.opciones" [value]="opcion">{{ opcion }}</ion-select-option>
+          </ion-select>
+          <ion-checkbox *ngIf="field.value.type === 'checkbox'" formControlName="valor"></ion-checkbox>
+          <ion-button *ngIf="field.value.type === 'documento'" color="primary">Adjuntar Documento</ion-button>
+        </ion-item>
+      </div>
+    </div>
+
+    <ion-button expand="full" (click)="saveRequests()">Guardar Solicitud</ion-button>
+  </form>
+</ion-content> -->
+    <!-- <form [formGroup]="requestForm" (ngSubmit)="saveRequest()">
+      <ion-item>
+        <ion-label>Type of Request</ion-label>
+        <ion-select formControlName="type" (ionChange)="onTypeChange($event)">
+          <ion-select-option *ngFor="let type of requestTypes" [value]="type.name">
+            {{ type.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div formGroupName="fields">
+        <ion-item *ngFor="let field of selectedType?.fields || []">
+          <ion-label>{{ field.label }}</ion-label>
+          <ion-input *ngIf="field.type === 'text'" type="text" [formControlName]="field.label"></ion-input>
+          <ion-input *ngIf="field.type === 'number'" type="number" [formControlName]="field.label"></ion-input>
+          <ion-checkbox *ngIf="field.type === 'checkbox'" [formControlName]="field.label"></ion-checkbox>
+          <ion-select *ngIf="field.type === 'list'" [formControlName]="field.label">
+            <ion-select-option *ngFor="let option of field.options">{{ option }}</ion-select-option>
+          </ion-select>
+          <ion-radio-group *ngIf="field.type === 'radiobutton'" [formControlName]="field.label">
+            <ion-item *ngFor="let option of field.options">
+              <ion-label>{{ option }}</ion-label>
+              <ion-radio [value]="option"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-item>
+      </div>
+
+      <ion-button type="submit" expand="full" >Submit Request</ion-button>
+    </form>
+  </ion-content> -->
+

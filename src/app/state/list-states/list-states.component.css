@@ -1,0 +1,13 @@
+ion-item {
+  --padding-start: 0;
+}
+
+.sub-title {
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: blue;
+}
+
+.bottoms {
+  margin-bottom: 50px;
+}/*# sourceMappingURL=list-states.component.css.map */

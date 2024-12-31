@@ -1,0 +1,33 @@
+<ion-content class="ion-padding background-image" >
+  <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+
+  <div class="main-img">
+    <img src="../../../assets/logo.png" alt="">
+  </div>
+
+  <ion-label class="title">
+    <h1>Iniciar sesion</h1>
+
+  </ion-label>
+  <form [formGroup]="loginForm">
+    <ion-item class="mb">
+      <ion-input formControlName="phone" labelPlacement="stacked" label="Correo Electronico" placeholder="example@gmail.com">
+        <ion-icon slot="start" name="person-outline" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+    <ion-item class="mb">
+      <ion-input formControlName="password" type="password" labelPlacement="stacked" label="Contraseña" placeholder="********">
+        <ion-icon slot="start" name="lock-closed-outline" aria-hidden="true"></ion-icon>
+        <ion-input type="password" placeholder="Contraseña" slot="end"></ion-input>
+        <!-- <ion-input-password-toggle slot="end"></ion-input-password-toggle> -->
+      </ion-input>
+    </ion-item>
+    <ion-item class="mb">
+      <ion-toggle  formControlName="saveCredential" justify="space-between"><b>Recordar credenciales</b></ion-toggle>
+    </ion-item>
+  </form>
+
+  <div class="mb">
+    <ion-button expand="block" (click)="login()">Iniciar sesion</ion-button>
+  </div>
+</ion-content>

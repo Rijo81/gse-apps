@@ -1,0 +1,48 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-back-button default-href (click)="closeModal()"></ion-back-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content class="ion-padding background-image">
+  <div class="container">
+    <ion-img [src]="image" style="text-align: center;"></ion-img>
+  <ion-label class="">
+    <h1 class="mx-3">Registrese</h1>
+  </ion-label>
+  <ion-list>
+    <ion-item class="mb">
+      <ion-input labelPlacement="stacked" [(ngModel)]="name" name="full-name" label="Nombre Completo" placeholder="Nombre Completo" required>
+        <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+    <ion-item class="mb">
+      <ion-input labelPlacement="stacked" [(ngModel)]="email" name="email" label="Email" placeholder="Correo Electronico">
+        <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Seleccionar Rol de Usuario</ion-label>
+      <ion-select [(ngModel)]="selectRol">
+        <ion-select-option
+          *ngFor="let rol of rols"
+          [value]="rol.id">
+          {{ rol.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="mb">
+      <ion-input labelPlacement="stacked" [(ngModel)]="pass" name="passw" label="Password" placeholder="********">
+        <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+        <ion-input type="password" placeholder="Contraseña" slot="end"></ion-input>
+      </ion-input>
+    </ion-item>
+</ion-list>
+  <div class="mb">
+    <ion-button expand="block" (click)="createUser()">Registrar</ion-button>
+  </div>
+</div>
+</ion-content>
+

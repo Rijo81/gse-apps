@@ -1,0 +1,44 @@
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="dismiss()">Cancelar</ion-button>
+        </ion-buttons>
+        <ion-title>{{ rols ? 'Editar Rol' : 'Nuevo Rol' }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Nombre del Rol</ion-label>
+        <ion-input [(ngModel)]="rols.name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="rols.permition_categories" justify="start" labelPlacement="end">
+          Categorías
+        </ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="rols.permition_states" justify="start" labelPlacement="end">
+          Estados
+        </ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="rols.permition_users" justify="start" labelPlacement="end">
+          Gestión de Usuarios
+        </ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="rols.permition_viewsolic" justify="start" labelPlacement="end">
+          Ver Solicitud
+        </ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox [(ngModel)]="rols.permition_requests" justify="start" labelPlacement="end">
+          Solicitudes
+        </ion-checkbox>
+      </ion-item>
+    </ion-content>

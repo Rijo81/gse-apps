@@ -1,0 +1,62 @@
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Solicitudes</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content  class="ion-padding">
+    <ion-header class="d-flex-between">
+    <ion-label>
+      <h3>Hola, {{user.name}}</h3>
+      <h1>Buenos dias!</h1>
+    </ion-label>
+    <ion-avatar  (click)="presentClosePopover($event)" style="cursor: pointer;" class="icon-profile" *ngIf="userProfile">
+      <img alt="Imagen" [src]="userProfile" />
+    </ion-avatar>
+    <ion-popover  #popover triggerAction="hover" (didDismiss)="isClosePopoverOpen = false" [isOpen]="isClosePopoverOpen">
+      <ng-template>
+        <ion-content style="cursor: pointer;" class="ion-padding" (click)="closeSession()">Cerrar sesion!</ion-content>
+      </ng-template>
+    </ion-popover>
+  </ion-header>
+
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button value="solicitd">
+        <ion-label>Solicitudes Recibidas</ion-label>
+      </ion-segment-button>
+      <!-- [fullscreen]="true" -->
+      <ion-segment-button value="mysolicitd">
+        <ion-label>Mi Solicitudes</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Contenido dinámico según el segmento seleccionado -->
+    <div *ngIf="selectedSegment === 'solicitd'">
+      <h2>Solicitudes Recibidas</h2>
+      <!-- <app-list-states></app-list-states> -->
+
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-fab-button (click)="addStates()">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
+    </div>
+
+    <div *ngIf="selectedSegment === 'mysolicitd'">
+      <h1>Mi solicitudes</h1>
+      <!-- <app-list-categories></app-list-categories> -->
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button (click)="addCategories()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+
+  </ion-content>
+
+

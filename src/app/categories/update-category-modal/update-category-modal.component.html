@@ -1,0 +1,74 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Category</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory()">
+    <ion-item>
+      <ion-label position="floating">Category Name</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input type="text" formControlName="description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Select Parent Category</ion-label>
+      <ion-select formControlName="parentCategory">
+        @for (cat of categories; track $index) {
+          <ion-select-option [value]="cat.id">
+            {{ cat.name }}
+          </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="editCategoryForm.invalid">
+      Update Category
+    </ion-button>
+  </form>
+</ion-content>
+
+
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Category</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory()">
+    <ion-item>
+      <ion-label position="floating">Category Name</ion-label>
+      <ion-input type="text" formControlName="name" [(ngModel)]="category.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input type="text" formControlName="description" [(ngModel)]="category.description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Select Parent Category</ion-label>
+      <ion-select formControlName="parentCategory" [(ngModel)]="category.parentCategoryId">
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="editCategoryForm.invalid">
+      Update Category
+    </ion-button>
+  </form>
+</ion-content> -->

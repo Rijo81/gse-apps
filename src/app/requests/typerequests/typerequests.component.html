@@ -1,0 +1,286 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tipos de Solicitudes</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Crear tipo de Solicitud</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="typeRequestForm">
+        <ion-list>
+          <!-- Nombre de la Solicitud -->
+          <ion-item>
+            <ion-label position="floating">Nombre Solicitud</ion-label>
+            <ion-input
+              formControlName="name"
+              placeholder="Nombre"
+            ></ion-input>
+          </ion-item>
+
+          <!-- Select category -->
+          <ion-item>
+            <ion-label>Categoria</ion-label>
+            <ion-select formControlName="category" placeholder="Seleccione Categoria">
+              <ion-select-option *ngFor="let category of categories" [value]="category">
+                {{ category.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Select role -->
+          <ion-item>
+            <ion-label>Roles</ion-label>
+            <ion-select formControlName="rols" placeholder="Seleccione Rol">
+              <ion-select-option *ngFor="let rol of rols" [value]="rol">
+                {{ rol.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Campos dinámicos -->
+          <ion-list formArrayName="fields">
+            <ion-item *ngFor="let field of fields.controls; let i = index" [formGroupName]="i">
+              <ion-input
+                type="text"
+                formControlName="name"
+                placeholder="Nombre"
+              ></ion-input>
+              <ion-select formControlName="type" (ionChange)="onFieldTypeChange(i)" placeholder="Tipo">
+                <ion-select-option value="string">Texto</ion-select-option>
+                <ion-select-option value="number">Numérico</ion-select-option>
+                <ion-select-option value="document">Documento e img</ion-select-option>
+                <ion-select-option value="checkbox">Checkbox</ion-select-option>
+                <ion-select-option value="radiobutton">Radiobutton</ion-select-option>
+                <ion-select-option value="list">Lista</ion-select-option>
+              </ion-select>
+              <ion-button (click)="removeField(i)" color="danger" shape="round">
+                Eliminar
+              </ion-button>
+            </ion-item>
+
+            <!-- Opciones adicionales para Lista o Radiobutton -->
+            <div *ngFor="let field of fields.controls; let i = index">
+              <ion-list *ngIf="fields.at(i).get('type').value === 'list' || fields.at(i).get('type').value === 'radiobutton'" formArrayName="options">
+                <ion-item *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
+                  <ion-input
+                    type="text"
+                    formControlName="option"
+                    placeholder="Opción"
+                  ></ion-input>
+                  <ion-button (click)="removeOption(i, j)" color="danger" shape="round">
+                    Eliminar
+                  </ion-button>
+                </ion-item>
+              </ion-list>
+              <ion-button *ngIf="fields.at(i).get('type').value === 'list' || fields.at(i).get('type').value === 'radiobutton'" (click)="addOption(i)" expand="block" color="tertiary" shape="round">
+                Añadir Opciones
+              </ion-button>
+            </div>
+          </ion-list>
+
+          <ion-button expand="block" (click)="addField()">Añadir Campo</ion-button>
+          <ion-button expand="block" color="primary" (click)="saveTypeRequest()">Guardar Tipo Solicitud</ion-button>
+        </ion-list>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de Tipos de Solicitudes -->
+  <ion-list>
+    <ion-item *ngFor="let type of typeRequests">
+      {{ type.name }}
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Tipos de Solicitudes</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Crear tipo de Solicitud</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+
+        <ion-item>
+          <ion-label position="floating">Nombre Solicitud</ion-label><br>
+          <ion-input placeholder="Nombre" [(ngModel)]="newTypeRequest.name"></ion-input>
+        </ion-item> -->
+
+         <!-- Select category -->
+        <!-- <ion-item>
+          <ion-label>Categoria</ion-label>
+          <ion-select [(ngModel)]="newTypeRequest.category" placeholder="Selecione Categoria">
+            @for (category of categories; track $index) {
+              <ion-select-option [value]="category">
+                {{ category.name }}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-item> -->
+
+        <!-- Select role -->
+        <!-- <ion-item>
+          <ion-label>Roles</ion-label>
+          <ion-select [(ngModel)]="newTypeRequest.rols" placeholder="Selecione Rol">
+            @for (rol of rols; track $index) {
+              <ion-select-option [value]="rol">
+                {{ rol.name }}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-item> -->
+      <!-- Select fields -->
+      <!-- <ion-list>
+        @for (field of newTypeRequest.fields; track $index) {
+          <ion-item>
+            <ion-input type="text" placeholder="Nombre" [(ngModel)]="field.name"></ion-input>
+            <ion-select [(ngModel)]="field.type" (ionChange)="onFieldTypeChange(field)" placeholder="Type">
+                  <ion-select-option value="string">Texto</ion-select-option>
+                  <ion-select-option value="number">Numerico</ion-select-option>
+                  <ion-select-option value="document">Documento e img</ion-select-option>
+                  <ion-select-option value="checkbox">Checkbox</ion-select-option>
+                  <ion-select-option value="radiobutton">Radiobutton</ion-select-option>
+                  <ion-select-option value="list">Lista</ion-select-option>
+            </ion-select>
+            <ion-button (click)="removeField($index)" color="danger" shape="round">
+              Eliminar
+            </ion-button>
+          </ion-item>
+        } -->
+        <!-- Opciones adicionales para Lista o Radiobutton -->
+         <!-- @for (field of newTypeRequest.fields; track $index) {
+          <div>
+            @if (field.type === 'list' || field.type === 'radiobutton') {
+              <ion-list>
+                @for (option of field.options; track $index) {}
+                <ion-item>
+                  <ion-input type="text" placeholder="Opcion" [(ngModel)]="field.options[$index]"></ion-input>
+                  <ion-button (click)="removeOption(field, $index)" color="danger" shape="round">
+                    Eliminar
+                  </ion-button>
+                </ion-item>
+              </ion-list>
+              <ion-button (click)="addOption(field)" expand="block" color="tertiary" shape="round">
+                Añadir Opciones
+              </ion-button>
+            }
+          </div>
+         } -->
+            <!-- <div *ngFor="let field of newTypeRequest.fields">
+              @if (field.type === 'list' || field.type === 'radiobutton') {
+                <ion-list>
+                  <ion-item *ngFor="let option of field.options; let j = index">
+                    <ion-input placeholder="Option Name" [(ngModel)]="field.options[j]"></ion-input>
+                    <ion-button color="danger" (click)="removeOption(field, j)">Remove</ion-button>
+                  </ion-item>
+                </ion-list>
+                <ion-button expand="block" color="tertiary" (click)="addOption(field)">Añadir Opciones</ion-button>
+              }
+            </div> -->
+      <!-- </ion-list> -->
+      <!-- <ion-list>
+        <ion-item *ngFor="let field of newTypeRequest.fields; let i = index">
+          <ion-input placeholder="Field Name" [(ngModel)]="field.name"></ion-input>
+          <ion-select [(ngModel)]="field.type">
+            <ion-select-option value="string">Text</ion-select-option>
+            <ion-select-option value="number">Number</ion-select-option>
+            <ion-select-option value="document">Document</ion-select-option>
+            <ion-select-option value="checkbox">Checkbox</ion-select-option>
+            <ion-select-option value="radiobutton">Radiobutton</ion-select-option>
+            <ion-select-option value="list">List</ion-select-option>
+          </ion-select>
+          <ion-button color="danger" (click)="removeField(i)">Remove</ion-button>
+        </ion-item>-->
+      <!-- </ion-list>
+
+      <ion-button expand="block" (click)="addField()">Añadir Campo</ion-button>
+      <ion-button expand="block" color="primary" (click)="saveTypeRequest()">Guardar Tipo Solicitud</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    @for (type of typeRequests; track $index) {
+      <ion-item>
+        {{ type.name }}
+      </ion-item>
+    }
+  </ion-list>
+</ion-content> -->
+

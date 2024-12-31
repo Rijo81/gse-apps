@@ -1,0 +1,56 @@
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Estados</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+<ion-header class="d-flex-between">
+    <ion-label>
+      <h3>Hola, {{user.name}}</h3>
+      <h1>Buenos dias!</h1>
+    </ion-label>
+    <ion-avatar  (click)="presentClosePopover($event)" style="cursor: pointer;" class="icon-profile" *ngIf="userProfile">
+      <img alt="Imagen" [src]="userProfile" />
+    </ion-avatar>
+    <ion-popover  #popover triggerAction="hover" (didDismiss)="isClosePopoverOpen = false" [isOpen]="isClosePopoverOpen">
+      <ng-template>
+        <ion-content style="cursor: pointer;" class="ion-padding" (click)="closeSession()">Cerrar sesion!</ion-content>
+      </ng-template>
+    </ion-popover>
+  </ion-header>
+
+  <ion-label>
+    <h1 class="sub-title">Ver Estados</h1>
+  </ion-label>
+
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      @for (state of states; track $index) {
+        <ion-item>
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
+          </ion-avatar>
+          <ion-label>
+            <h3>{{state.name}}</h3>
+          </ion-label>
+          <ion-icon slot="end" name="trash" style="color: red;" (click)="delState(state.id)"></ion-icon>
+          <ion-icon slot="end" name="create" style="color: green;" (click)="updateState(state)"></ion-icon>
+        </ion-item>
+      }
+    </ion-reorder-group>
+  </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="addState()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+

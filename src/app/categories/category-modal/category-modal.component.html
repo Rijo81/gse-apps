@@ -1,0 +1,39 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Categoría</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cancelar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Nombre de la Categoria</ion-label>
+        <ion-input placeholder="Nombre" [(ngModel)]="categoryName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-input placeholder="Descripción" [(ngModel)]="categoryDescription"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>Seleccionar Categoría Padre</ion-label>
+        <ion-select  [(ngModel)]="selectedSubcategory" placeholder="Selecione la categoria">
+          @for (parentcategory of parentcategories; track $index) {
+            <ion-select-option [value]="parentcategory.name">
+              {{ parentcategory.name }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" (click)="createCategory()">Crear</ion-button>
+
+</ion-content>
+
+
