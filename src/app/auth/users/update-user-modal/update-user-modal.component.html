@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="editUsersForm" (ngSubmit)="updateUser()">
+
+    <ion-item>
+      <ion-input labelPlacement="stacked" formControlName="name" label="Nombre Completo" placeholder="Nombre Completo" required>
+        <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input labelPlacement="stacked" formControlName="email" label="Email" placeholder="Correo Electronico">
+        <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Seleccionar Rol de Usuario</ion-label>
+      <ion-select formControlName="selectRol">
+        <ion-select-option
+          *ngFor="let rol of rols"
+          [value]="rol.id">
+          {{ rol.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="mb">
+      <ion-input labelPlacement="stacked" formControlName="pass" label="Password" placeholder="********">
+        <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="editUsersForm.invalid">
+      Actualizar Usuario
+    </ion-button>
+  </form>
+</ion-content>

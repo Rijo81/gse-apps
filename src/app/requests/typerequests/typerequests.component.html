@@ -50,7 +50,7 @@
             <ion-item *ngFor="let field of fields.controls; let i = index" [formGroupName]="i">
               <ion-input
                 type="text"
-                formControlName="name"
+                formControlName="names"
                 placeholder="Nombre"
               ></ion-input>
               <ion-select formControlName="type" (ionChange)="onFieldTypeChange(i)" placeholder="Tipo">
@@ -72,7 +72,7 @@
                 <ion-item *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
                   <ion-input
                     type="text"
-                    formControlName="option"
+                    formControlName="options"
                     placeholder="Opción"
                   ></ion-input>
                   <ion-button (click)="removeOption(i, j)" color="danger" shape="round">

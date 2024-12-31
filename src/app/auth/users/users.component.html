@@ -41,7 +41,7 @@
             <h3 class="rol">{{"Rol: " + user.rol}}</h3>
           </ion-label>
           <ion-icon slot="end" name="trash" style="color: red;" (click)="delUser(user.id_user)"></ion-icon>
-          <ion-icon slot="end" name="create" style="color: green;" (click)="updateUser(user)"></ion-icon>
+          <ion-icon slot="end" name="create" style="color: green;" (click)="openEditModalUser(user)"></ion-icon>
         </ion-item>
       }
     </ion-reorder-group>

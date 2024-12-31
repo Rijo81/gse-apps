@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ItemReorderEventDetail, ModalController } from '@ionic/angular';
 import { UsersI } from 'src/app/models/users.models';
-import { UserService } from 'src/app/services/user/user.service';
 import { UsersService } from 'src/app/services/user/users.service';
-import { UsersModalComponent } from '../users-modal/users-modal.component';
 import { RolsI } from 'src/app/models/rols.models';
 import { IonHeader, IonTitle, IonToolbar, IonButtons, IonContent, IonLabel, IonAvatar,
   IonPopover, IonList, IonReorderGroup, IonItem, IonIcon, IonFab, IonFabButton, IonMenuButton } from "@ionic/angular/standalone";
+import { RegisterModalComponent } from './register-modal/register-modal.component';
+import { UpdateUserModalComponent } from './update-user-modal/update-user-modal.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-users',
@@ -83,7 +84,7 @@ export class UsersComponent  implements OnInit {
 
   async openCreateUserModal() {
       const modal = await this.modalCtrl.create({
-        component: UsersModalComponent,
+        component: RegisterModalComponent,
         componentProps: { dataRegisterUser: this.users },
       });
 
@@ -105,59 +106,30 @@ export class UsersComponent  implements OnInit {
       await modal.present();
     }
 
-    // async openUpdateUserModal(user: { id_user: string; name: string; email: string, rol: string, password: string }) {
-    //   const modal = await this.modalCtrl.create({
-    //     component: UsersModalComponent,
-    //     componentProps: {
-    //       dataRegisterUser: [user] // Pasa los datos del usuario al modal
-    //     }
-    //   });
+  async openEditModalUser(user: UsersI) {
+          const modal = await this.modalCtrl.create({
+            component: UpdateUserModalComponent,
+            componentProps: {
+              user: {...user},
+              users: {...this.users},
+            },
+          });
 
-    //   modal.onDidDismiss().then((result) => {
-    //     if (result.data) {
-    //       const updatedUser = result.data;
-    //       // Aquí puedes manejar el usuario actualizado, como enviarlo al backend o actualizar la UI
-    //     }
-    //   });
-
-    //   await modal.present();
-    // }
-  async updateUser(user: UsersI) {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Usuario',
-      message: `<img src="${this.iLogo}" alt="logo" style="border-radius: 2px">`,
-      inputs: [
-        { name: 'name',
-          type: 'text',
-          placeholder: 'Nombre del Usuario',
-          value: user.name },
-        { name: 'name',
-          type: 'text',
-          placeholder: 'Nombre del Usuario',
-          value: user.name },
-        { name: 'name',
-          type: 'text',
-          placeholder: 'Nombre del Usuario',
-          value: user.name },
-
-      ],
-      buttons: [
-        { text: 'Cancelar',
-          role: 'cancel' },
-        {
-          text: 'Actualizar',
-            handler: async (data) => {
-              const updateUser = { ...user, name: data.name };
-              await this.usersListService.editUsers(user.id_user, updateUser);
+          modal.onDidDismiss().then((result) => {
+            if (result.data) {
+              const updatedUser: UsersI = result.data;
+               // Actualizar el rol en el listado
+               const index = this.users.findIndex((cat) => cat.id_user === updatedUser.id_user);
+               if (index !== -1) {
+                 this.users[index] = {...updatedUser};
+               }
+               localStorage.setItem('users', JSON.stringify(this.users));
               this.loadUsers();
-              console.log(this.loadUsers());
+            }
+          });
 
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
+          return await modal.present();
+   }
 
   async delUser(id: string) {
     const alert = await this.alertCtrl.create({

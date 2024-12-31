@@ -140,24 +140,32 @@ export class RollsComponent  implements OnInit {
     saveRoles() {
       localStorage.setItem('rols', JSON.stringify(this.rols));
     }
-    async openEditRoleModal(rols: any) {
-      const modal = await this.modalController.create({
-        component: UpdateModalComponent,
-        componentProps: { rols: { ...rols } }, // Pasar copia del rol para editar
-      });
 
-      modal.onWillDismiss().then((result) => {
-        if (result.data) {
-          const index = this.rols.findIndex((r) => r.name === result.data.name);
-          if (index !== -1) {
-            this.rols[index] = result.data; // Actualizar rol editado
-            this.saveRoles();
+    async openEditModalRol(rol: RolsI) {
+        const modal = await this.modalController.create({
+          component: UpdateModalComponent,
+          componentProps: {
+            rol: {...rol},
+            rols: {...this.rols},
+          },
+        });
+
+        modal.onDidDismiss().then((result) => {
+          if (result.data) {
+            const updatedRol: RolsI = result.data;
+             // Actualizar el rol en el listado
+             const index = this.rols.findIndex((cat) => cat.id === updatedRol.id);
+             if (index !== -1) {
+               this.rols[index] = {...updatedRol};
+             }
+             localStorage.setItem('rols', JSON.stringify(this.rols));
+            this.loadRols();
           }
-        }
-      });
+        });
 
-      await modal.present();
-    }
+        return await modal.present();
+      }
+
 
     // Eliminar un rol
     // updateRole(role: any) {

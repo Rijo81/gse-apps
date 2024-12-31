@@ -36,31 +36,14 @@ export class UpdateCategoryModalComponent  implements OnInit {
   ngOnInit() {
     if (this.category) {
 
-        this.editCategoryForm.patchValue({
-        name: this.category.name,
-        description: this.category.description,
-        parentcategory: this.category.parentcategory || null, // Asignar el id del parentCategory
-      }); // Rellenar el formulario con los datos de la categoría seleccionada
+        this.editCategoryForm.patchValue(this.category); // Rellenar el formulario con los datos de la categoría seleccionada
     }
-
-      // const parentCategoryExists = this.categories.some(
-      //   (cat) => cat.id === this.category.parentcategory
-      // );
-
-      // this.editCategoryForm.patchValue({
-      //   name: this.category.name,
-      //   description: this.category.description,
-      //   parentCategory: parentCategoryExists
-      //     ? this.category.parentcategory
-      //     : null, // Si no existe, inicializamos como null
-      // });
-
-      // if (!parentCategoryExists && this.category.parentcategory) {
-      //   console.warn(
-      //     `Parent category with id ${this.category.parentcategory} not found in the category list.`
-      //   );
-      // }
-  }
+    // {
+    //   name: this.category.name,
+    //   description: this.category.description,
+    //   parentcategory: this.category.parentcategory || null, // Asignar el id del parentCategory
+    // }
+ }
 
   dismiss() {
     this.modalController.dismiss();

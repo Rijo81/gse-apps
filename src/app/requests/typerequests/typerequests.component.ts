@@ -19,7 +19,7 @@ import { RolsI } from 'src/app/models/rols.models';
 })
 export class TyperequestsComponent  implements OnInit {
 
-   typeRequestForm: FormGroup;
+    typeRequestForm: FormGroup;
     typeRequests: TypeRequestsI[] = [];
     categories: CategoriesI[] = [];
     rols: RolsI[] = [];
@@ -46,9 +46,6 @@ export class TyperequestsComponent  implements OnInit {
       if (savedRols) {
         this.rols = JSON.parse(savedRols);
       }
-
-      console.log('Loaded categories:', this.categories);
-      console.log('Loaded roles:', this.rols);
     }
 
     // Getter para el array de campos
@@ -58,13 +55,21 @@ export class TyperequestsComponent  implements OnInit {
 
     // Añadir un nuevo campo dinámico
     addField() {
+      const fields = this.typeRequestForm.get('fields') as FormArray;
+      const type: string = ''
       const fieldGroup = this.fb.group({
-        name: ['', Validators.required],
-        type: ['string', Validators.required],
-        options: this.fb.array([]), // Inicialmente vacío para tipos "list" o "radiobutton"
+        names: ['', Validators.required],
+        type: [type, Validators.required],
+        options: this.fb.array([]), // Agregar FormArray para opciones si es necesario
       });
 
-      this.fields.push(fieldGroup);
+      if (['radiobutton', 'lista', 'checkbox'].includes(type)) {
+        const optionsArray = fieldGroup.get('options') as FormArray;
+        optionsArray.push(this.fb.control('')); // Agregar al menos una opción vacía por defecto
+      }
+
+      fields.push(fieldGroup);
+
     }
 
     // Eliminar un campo dinámico
@@ -74,28 +79,48 @@ export class TyperequestsComponent  implements OnInit {
 
     // Manejo del cambio de tipo de campo
     onFieldTypeChange(index: number) {
-      const field = this.fields.at(index) as FormGroup;
-      const type = field.get('type')?.value;
 
-      if (type === 'list' || type === 'radiobutton') {
-        if (!field.get('options')) {
-          field.addControl('options', this.fb.array([]));
-        }
-      } else {
-        field.removeControl('options');
-      }
+      const fields = this.typeRequestForm.get('fields') as FormArray;
+  const field = fields.at(index) as FormGroup;
+
+  if (['radiobutton', 'lista', 'checkbox'].includes(field.get('type')?.value)) {
+    if (!field.get('options')) {
+      field.addControl('options', this.fb.array([])); // Agregar FormArray de opciones
+    }
+  } else {
+    if (field.get('options')) {
+      field.removeControl('options'); // Eliminar FormArray de opciones
+    }
+  }
+      // const field = this.fields.at(index) as FormGroup;
+      // const type = field.get('type')?.value;
+
+      // if (type === 'list' || type === 'radiobutton') {
+      //   if (!field.get('options')) {
+      //     field.addControl('options', this.fb.array([]));
+      //   }
+      // } else {
+      //   field.removeControl('options');
+      // }
     }
 
     // Añadir una opción a un campo específico
     addOption(fieldIndex: number) {
-      const options = this.getOptions(fieldIndex);
-      options.push(this.fb.control('', Validators.required));
+
+      const fields = this.typeRequestForm.get('fields') as FormArray;
+      const options = fields.at(fieldIndex).get('options') as FormArray;
+      options.push(this.fb.control('')); // Agrega una nueva opción vacía
+      // const options = this.getOptions(fieldIndex);
+      // options.push(this.fb.control('', Validators.required));
     }
 
     // Eliminar una opción de un campo específico
     removeOption(fieldIndex: number, optionIndex: number) {
-      const options = this.getOptions(fieldIndex);
-      options.removeAt(optionIndex);
+      const fields = this.typeRequestForm.get('fields') as FormArray;
+      const options = fields.at(fieldIndex).get('options') as FormArray;
+      options.removeAt(optionIndex); // Elimina la opción seleccionada
+      // const options = this.getOptions(fieldIndex);
+      // options.removeAt(optionIndex);
     }
 
     // Obtener el array de opciones para un campo

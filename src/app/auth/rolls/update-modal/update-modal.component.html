@@ -1,44 +1,47 @@
-
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="dismiss()">Cancelar</ion-button>
-        </ion-buttons>
-        <ion-title>{{ rols ? 'Editar Rol' : 'Nuevo Rol' }}</ion-title>
+        <ion-title>Edit Rol</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+          <ion-button (click)="dismiss()">Cancel</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-item>
-        <ion-label position="floating">Nombre del Rol</ion-label>
-        <ion-input [(ngModel)]="rols.name" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox [(ngModel)]="rols.permition_categories" justify="start" labelPlacement="end">
-          Categorías
-        </ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox [(ngModel)]="rols.permition_states" justify="start" labelPlacement="end">
-          Estados
-        </ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox [(ngModel)]="rols.permition_users" justify="start" labelPlacement="end">
-          Gestión de Usuarios
-        </ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox [(ngModel)]="rols.permition_viewsolic" justify="start" labelPlacement="end">
-          Ver Solicitud
-        </ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox [(ngModel)]="rols.permition_requests" justify="start" labelPlacement="end">
-          Solicitudes
-        </ion-checkbox>
-      </ion-item>
+      <form [formGroup]="editRolForm" (ngSubmit)="updateRol()">
+
+        <ion-item>
+          <ion-label position="floating">Nombre del Rol</ion-label>
+          <ion-input formControlName="name" type="text" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox formControlName="permitionCategory" justify="start" labelPlacement="end">
+            Categorías
+          </ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox formControlName="permitionState" justify="start" labelPlacement="end">
+            Estados
+          </ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox formControlName="permitionUsers" justify="start" labelPlacement="end">
+            Gestión de Usuarios
+          </ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox formControlName="permitionViewRequests" justify="start" labelPlacement="end">
+            Ver Solicitud
+          </ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox formControlName="permitionRequests" justify="start" labelPlacement="end">
+            Solicitudes
+          </ion-checkbox>
+        </ion-item>
+
+        <ion-button expand="full" type="submit" [disabled]="editRolForm.invalid">
+          Actualizar Rol
+        </ion-button>
+      </form>
     </ion-content>

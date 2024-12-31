@@ -24,16 +24,8 @@ export class UsersService {
     return user;
   }
 
-  probarDatos(id: string, datalist: UsersI){
-    console.log('Datos recibidos: ');
-    console.log("ID: ", id);
-    console.log('Nombre: ', datalist);
-  }
-
   async editUsers(id: string, updatedUser: UsersI): Promise<UsersI> {
-    console.log('Entra al metodo');
     const users = await this.getUsers();
-
     const index = users.findIndex((stat) => stat.id_user === id);
     if (index !== -1) {
       users[index] = { ...users[index], ...updatedUser };
