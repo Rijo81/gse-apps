@@ -50,7 +50,7 @@
             <ion-item *ngFor="let field of fields.controls; let i = index" [formGroupName]="i">
               <ion-input
                 type="text"
-                formControlName="names"
+                formControlName="name"
                 placeholder="Nombre"
               ></ion-input>
               <ion-select formControlName="type" (ionChange)="onFieldTypeChange(i)" placeholder="Tipo">

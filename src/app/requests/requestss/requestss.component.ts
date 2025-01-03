@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonCard, IonCardHeader,
   IonCardTitle, IonCardContent, IonItem, IonLabel, IonList, IonInput, IonRadioGroup,
-  IonRadio, IonCheckbox, IonButton, IonSelect, IonSelectOption, IonMenuButton  } from "@ionic/angular/standalone";
+  IonRadio, IonCheckbox, IonButton, IonSelect, IonSelectOption, IonMenuButton, IonIcon, IonImg } from "@ionic/angular/standalone";
 import { TypeRequestsI } from 'src/app/models/requests.models';
 
 @Component({
@@ -11,18 +12,19 @@ import { TypeRequestsI } from 'src/app/models/requests.models';
   templateUrl: './requestss.component.html',
   styleUrls: ['./requestss.component.scss'],
   standalone: true,
-  imports: [IonButton, IonCheckbox, IonRadio, IonRadioGroup, IonInput, IonList, IonLabel,
+  imports: [ IonIcon, IonButton, IonCheckbox, IonRadio, IonRadioGroup, IonInput, IonList, IonLabel,
     IonItem, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonContent, IonButtons,
     IonTitle, IonToolbar, IonHeader, IonSelect, IonSelectOption, IonMenuButton, ReactiveFormsModule,
   FormsModule, CommonModule ]
 })
 export class RequestssComponent  implements OnInit {
 
-  typeRequests: TypeRequestsI[] = [];
+    typeRequests: TypeRequestsI[] = [];
     selectedTypeId: number | null = null;
     selectedType: TypeRequestsI | null = null;
     formData: { [key: string]: any } = {};
     requests: any[] = [];
+    fields: any[] = [];
 
     constructor() {
       this.loadTypeRequests();
@@ -37,6 +39,15 @@ export class RequestssComponent  implements OnInit {
       console.log('Loaded categories:', this.requests);
     }
 
+    addField(type: string) {
+      const newField = {
+        name: '',
+        type: type,
+        photo: '', // Almacenará la ruta de la foto si es de tipo "document"
+      };
+
+      this.fields.push(newField);
+    }
     loadTypeRequests() {
       const stored = localStorage.getItem('requestTypes');
       if (stored) {
@@ -68,6 +79,21 @@ export class RequestssComponent  implements OnInit {
           this.formData[fieldName] = reader.result; // Guardamos la base64 del archivo.
         };
         reader.readAsDataURL(file);
+      }
+    }
+
+    async capturePhoto(index: number) {
+      try {
+        const photo = await Camera.getPhoto({
+          resultType: CameraResultType.Uri, // Ruta de la imagen
+          source: CameraSource.Camera, // Cámara del dispositivo
+          quality: 90, // Calidad de la imagen
+        });
+
+        // Guardar la ruta de la foto en el campo correspondiente
+        this.fields[index].photo = photo.webPath;
+      } catch (error) {
+        console.error('Error al capturar la foto', error);
       }
     }
 

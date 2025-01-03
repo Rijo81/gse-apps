@@ -56,17 +56,16 @@ export class TyperequestsComponent  implements OnInit {
     // Añadir un nuevo campo dinámico
     addField() {
       const fields = this.typeRequestForm.get('fields') as FormArray;
-      const type: string = ''
       const fieldGroup = this.fb.group({
-        names: ['', Validators.required],
-        type: [type, Validators.required],
+        name: ['', Validators.required],
+        type: ['', Validators.required],
         options: this.fb.array([]), // Agregar FormArray para opciones si es necesario
       });
 
-      if (['radiobutton', 'lista', 'checkbox'].includes(type)) {
-        const optionsArray = fieldGroup.get('options') as FormArray;
-        optionsArray.push(this.fb.control('')); // Agregar al menos una opción vacía por defecto
-      }
+      // if (['radiobutton', 'lista', 'checkbox'].includes()) {
+      //   const optionsArray = fieldGroup.get('options') as FormArray;
+      //   optionsArray.push(this.fb.control('')); // Agregar al menos una opción vacía por defecto
+      // }
 
       fields.push(fieldGroup);
 
@@ -141,9 +140,12 @@ export class TyperequestsComponent  implements OnInit {
         id: Date.now(),
         ...this.typeRequestForm.value,
       };
+      console.log(newTypeRequest);
 
       // Verificar unicidad de nombres de campos
-      const fieldNames = newTypeRequest.fields.map((field) => field.name.trim());
+      const fieldNames = newTypeRequest.fields.map((field) => field.name?.trim() || '');
+      console.log('ver valores: ', fieldNames);
+
       if (new Set(fieldNames).size !== fieldNames.length) {
         alert('Los nombres de los campos deben ser únicos.');
         return;
