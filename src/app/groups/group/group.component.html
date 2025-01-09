@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Grupos</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button class="colormenu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header class="d-flex-between">
+  <ion-label>
+    <h3>Hola, {{user.name}}</h3>
+    <h1>Buenos dias!</h1>
+  </ion-label>
+  <ion-avatar  (click)="presentClosePopover($event)" style="cursor: pointer;" class="icon-profile" *ngIf="userProfile">
+    <img alt="Imagen" [src]="userProfile" />
+  </ion-avatar>
+  <ion-popover  #popover triggerAction="hover" (didDismiss)="isClosePopoverOpen = false" [isOpen]="isClosePopoverOpen">
+    <ng-template>
+      <ion-content style="cursor: pointer;" class="ion-padding" (click)="closeSession()">Cerrar sesion!</ion-content>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-label>
+    <h1 class="sub-title">Categorias</h1>
+  </ion-label>
+
+  <ion-list>
+      @for (group of groups; track $index) {
+        <ion-item>
+          <ion-avatar slot="start">
+            <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
+          </ion-avatar>
+          <ion-label>
+            <h3>{{group.name}}</h3>
+            <h3>{{group.parentId}}</h3>
+            <!-- @if (group.parentId) {
+              @for (item of groups; track $index) {}
+              <h3>{{"Padre: " + group.name}}</h3>
+            } -->
+          </ion-label>
+          <ion-icon slot="end" name="trash" style="color: red;" (click)="delGroup(group.id)"></ion-icon>
+          <ion-icon slot="end" name="create" style="color: green;" id="open-modal" (click)="openEditModalGroup(group)"></ion-icon>
+        </ion-item>
+      }
+  </ion-list>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button (click)="openCreateGroupModal()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
+

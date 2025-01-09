@@ -53,11 +53,6 @@ export class ListCategoriesComponent {
     this.user = this.userService.user
     this.loadCategories();
   }
-
-  // handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-  //   console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
-  //   ev.detail.complete();
-  // }
   presentClosePopover(e: Event) {
     this.popover.event = e;
     this.isClosePopoverOpen = true;

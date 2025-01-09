@@ -27,10 +27,13 @@ export class ListStatesComponent implements OnInit  {
 
   states: AppointmentStateModelI[] = [];
   data: string = '';
-  constructor(private stateService: StatesService,
-    private alertCtrl: AlertController,
+  constructor(
     private router: Router,
-    private userService: UserService) {
+    private alertCtrl: AlertController,
+    private stateService: StatesService,
+    private userService: UserService
+
+  ) {
     this.loadStates();
   }
   @ViewChild('popover') popover: any;
@@ -40,7 +43,6 @@ export class ListStatesComponent implements OnInit  {
     this.userProfile = this.userService.userProfileImage
     this.user = this.userService.user
   }
-
   presentClosePopover(e: Event) {
     this.popover.event = e;
     this.isClosePopoverOpen = true;
@@ -55,21 +57,20 @@ export class ListStatesComponent implements OnInit  {
       this.isLoading = true
       await this.userService.logout()
       this.router.navigateByUrl('/auth', { replaceUrl: true });
-    } catch (error) {
-
-    } finally {
+    }  finally {
       this.isLoading = false
     }
   }
-
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
+    const temp = this.states[ev.detail.to]
+    this.states[ev.detail.to]  = this.states[ev.detail.from]
+    this.states[ev.detail.from] = temp
     ev.detail.complete();
   }
   async loadStates() {
     this.states = await this.stateService.getState();
     console.log(this.states);
-
   }
   async updateState(state: AppointmentStateModelI){
     const alert = await this.alertCtrl.create({
@@ -87,8 +88,6 @@ export class ListStatesComponent implements OnInit  {
           text: 'Actualizar',
             handler: async (data) => {
               const updatedState = { ...state, name: data.name };
-
-
               await this.stateService.editState(state.id, updatedState);
               console.log(data.id);
               this.loadStates();

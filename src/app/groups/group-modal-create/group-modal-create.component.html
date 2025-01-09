@@ -1,0 +1,33 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Grupo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cancelar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Nombre del Grupo</ion-label>
+        <ion-input placeholder="Nombre" [(ngModel)]="groupName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Seleccionar Grupo Padre</ion-label>
+        <ion-select  [(ngModel)]="selectedGroup" placeholder="Selecione el Grupo">
+          @for (group of parentGroup; track $index) {
+            <ion-select-option [value]="group.id">
+              {{ group.name }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" (click)="createGroup()">Crear</ion-button>
+
+</ion-content>
+
+

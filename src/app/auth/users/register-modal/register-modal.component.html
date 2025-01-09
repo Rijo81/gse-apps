@@ -33,6 +33,17 @@
       </ion-select>
     </ion-item>
 
+    <ion-item>
+      <ion-label position="stacked">Seleccionar Grupo Asignado</ion-label>
+      <ion-select [(ngModel)]="selectGroup">
+        @for (group of groups; track $index) {
+          <ion-select-option [value]="group.id">
+            {{ group.name }}
+          </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
     <ion-item class="mb">
       <ion-input labelPlacement="stacked" [(ngModel)]="pass" name="passw" label="Password" placeholder="********">
         <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>

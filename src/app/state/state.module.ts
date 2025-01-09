@@ -13,8 +13,6 @@ import { StateRoutingModule } from './state-routing.module';
     FormsModule,
     StateRoutingModule,
     IonicModule,
-    // Importa aquí el IonicModule para usar componentes de Ionic
-
   ],
   exports:[]
 })

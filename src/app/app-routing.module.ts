@@ -20,18 +20,22 @@ const routes: Routes = [
     canMatch: [AuthGuard]
   },
   {
-    path: 'state/list-state',
+    path: 'state',
     loadComponent: () => import('./state/list-states/list-states.component').then(m => m.ListStatesComponent),
     canMatch: [AuthGuard]
   },
   {
-    path: 'list-categories',
+    path: 'categories',
     loadComponent: () => import('./categories/list-categories/list-categories.component').then(m => m.ListCategoriesComponent),
     canMatch: [AuthGuard]
   },
-
   {
-    path: 'rolls',
+    path: 'groups',
+    loadComponent: () => import('./groups/group/group.component').then(m => m.GroupComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'rols',
     loadComponent: () => import('./auth/rolls/rolls.component').then(m => m.RollsComponent),
     canMatch: [AuthGuard]
   },
