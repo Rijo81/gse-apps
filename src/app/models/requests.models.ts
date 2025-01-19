@@ -1,11 +1,12 @@
 import { CategoriesI } from "./category.models";
-import { RolsI } from "./rols.models";
+import { GroupsI } from "./groups.models";
 
 export interface TypeRequestsI {
   id: number;
   name: string;
   category?: CategoriesI,
-  rols?: RolsI,
+  group_origin?: GroupsI,
+  group_destine?: GroupsI;
   fields: FieldsRequestsI[];
 }
 

@@ -96,6 +96,7 @@ export class UsersComponent  implements OnInit {
                           name: result.data.name,
                           email: result.data.email,
                           rol: result.data.rol,
+                          group_id: result.data.group,
                           password: result.data.pass
           };
             this.usersListService.createUsers(newUsers);
@@ -178,6 +179,7 @@ export class UsersComponent  implements OnInit {
                   name: data.name,
                   email: data.email,
                   rol: data.rol,
+                  group_id: data.group,
                   password: data.password,
                   // image_profile: '',
                   // token: '',

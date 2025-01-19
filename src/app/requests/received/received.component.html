@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Solicitudes</ion-title>
+    <ion-title>Excusas Recibidas</ion-title>
     <ion-buttons slot="start">
-      <ion-menu-button menu="principal"></ion-menu-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -10,29 +10,24 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <ion-label>
-    <h1 class="sub-title">Gestión de Usuarios</h1>
+    <h1 class="sub-title">Excusas de Estudiantes</h1>
   </ion-label>
 
 
   <ion-list>
-    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-      @for (user of users; track $index) {
+      @for (req of filteredRequestsMax; track $index) {
         <ion-item>
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
           </ion-avatar>
-          <ion-label>
-            <h3>{{user.name}}</h3>
-          </ion-label>
-          <ion-icon slot="end" name="trash" style="color: red;" (click)="delUser(user.id_user)"></ion-icon>
-          <ion-icon slot="end" name="create" style="color: green;" (click)="updateUser(user)"></ion-icon>
+            <ion-label>
+              <h3>{{req.formData.Nombre}}</h3>
+              <h3>{{req.formData.Edad}}</h3>
+              <h3>{{req.formData.Curso}}</h3>
+              <ion-img [src]="req.formData.IMG"></ion-img>
+            </ion-label>
         </ion-item>
       }
-    </ion-reorder-group>
   </ion-list>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="addUser()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+
 </ion-content>

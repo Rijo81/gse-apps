@@ -15,6 +15,7 @@ export class AppComponent {
     {title: 'Solicitudes', url: '/requests', icon: 'send'},
     {title: 'Roles', url: '/rols', icon: 'settings'},
     {title: 'Usuarios', url: '/auth/users', icon: 'people'},
+    {title: 'Ver Solicitudes', url: '/received', icon: 'eye'},
   ];
   constructor() {}
 }

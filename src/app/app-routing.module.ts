@@ -13,7 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
 
   },
-
   {
     path: 'segments',
     loadComponent: () => import('./segments/segments.component').then(m => m.SegmentsComponent),
@@ -47,6 +46,11 @@ const routes: Routes = [
   {
     path: 'typerequests',
     loadComponent: () => import('./requests/typerequests/typerequests.component').then(m => m.TyperequestsComponent),
+    canMatch: [AuthGuard]
+  },
+  {
+    path: 'received',
+    loadComponent: () => import('./requests/received/received.component').then(m => m.ReceivedComponent),
     canMatch: [AuthGuard]
   },
 ];

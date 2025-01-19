@@ -39,6 +39,7 @@
             <h3>{{user.name}}</h3>
             <h3>{{user.email}}</h3>
             <h3 class="rol">{{"Rol: " + user.rol}}</h3>
+            <h3 class="rol">{{"Grupo: " + user.group_id}}</h3>
           </ion-label>
           <ion-icon slot="end" name="trash" style="color: red;" (click)="delUser(user.id_user)"></ion-icon>
           <ion-icon slot="end" name="create" style="color: green;" (click)="openEditModalUser(user)"></ion-icon>

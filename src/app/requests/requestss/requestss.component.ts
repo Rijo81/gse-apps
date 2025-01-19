@@ -1,6 +1,7 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonCard, IonCardHeader,
   IonCardTitle, IonCardContent, IonItem, IonLabel, IonList, IonInput, IonRadioGroup,
@@ -27,16 +28,14 @@ export class RequestssComponent  implements OnInit {
     fields: any[] = [];
 
     constructor() {
-      this.loadTypeRequests();
-      this.loadRequests();
+
     }
     ngOnInit() {
-      const stored = localStorage.getItem('requests');
-      if (stored) {
-        this.requests = JSON.parse(stored);
-      }
+      this.loadTypeRequests();
+      this.loadRequests();
+      console.log('Loaded Solicitudes:', this.requests);
+      console.log('Loaded Tipo Solicitudes:', this.typeRequests);
 
-      console.log('Loaded categories:', this.requests);
     }
 
     addField(type: string) {
@@ -49,16 +48,16 @@ export class RequestssComponent  implements OnInit {
       this.fields.push(newField);
     }
     loadTypeRequests() {
-      const stored = localStorage.getItem('requestTypes');
-      if (stored) {
-        this.typeRequests = JSON.parse(stored);
+      const storedTypeRequests = localStorage.getItem('requestTypes');
+      if (storedTypeRequests) {
+        this.typeRequests = JSON.parse(storedTypeRequests);
       }
     }
 
     loadRequests() {
-      const stored = localStorage.getItem('requests');
-      if (stored) {
-        this.requests = JSON.parse(stored);
+      const storedRequests = localStorage.getItem('requests');
+      if (storedRequests) {
+        this.requests = JSON.parse(storedRequests);
       }
     }
 
@@ -101,6 +100,8 @@ export class RequestssComponent  implements OnInit {
       const newRequest = {
         id: Date.now(),
         typeName: this.selectedType?.name,
+        group_origin: this.selectedType.group_origin,
+        group_destine: this.selectedType.group_destine,
         formData: { ...this.formData }
       };
       this.requests.push(newRequest);

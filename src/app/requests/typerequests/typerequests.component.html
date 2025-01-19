@@ -35,23 +35,28 @@
             </ion-select>
           </ion-item>
 
-          <!-- Select role -->
-          <ion-item>
-            <ion-label>Roles</ion-label>
-            <ion-select formControlName="rols" placeholder="Seleccione Rol">
-              <ion-select-option *ngFor="let rol of rols" [value]="rol">
-                {{ rol.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
-            <!-- Select destino -->
+            <!-- Select origen -->
             <ion-item>
-              <ion-label>Destinatario</ion-label>
-              <ion-select formControlName="users" placeholder="Seleccione Usuario">
-                <ion-select-option *ngFor="let user of users" [value]="user">
-                  {{ user.name }}
-                </ion-select-option>
+              <ion-label>Grupo Origen</ion-label>
+              <ion-select formControlName="group_origin" placeholder="Seleccione Origen">
+                @for (group of groups; track $index) {
+                  <ion-select-option [value]="group">
+                    {{ group.name }}
+                  </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+
+
+            <!-- Select destinatario -->
+            <ion-item>
+              <ion-label>Grupo Destino</ion-label>
+              <ion-select formControlName="group_destine" placeholder="Seleccione Destino">
+                @for (group of groups; track $index) {
+                  <ion-select-option [value]="group">
+                    {{ group.name }}
+                  </ion-select-option>
+                }
               </ion-select>
             </ion-item>
 

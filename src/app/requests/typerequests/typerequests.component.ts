@@ -28,10 +28,8 @@ import {
   IonMenuButton,
 } from '@ionic/angular/standalone';
 import { CategoriesI } from 'src/app/models/category.models';
+import { GroupsI } from 'src/app/models/groups.models';
 import { TypeRequestsI } from 'src/app/models/requests.models';
-import { RolsI } from 'src/app/models/rols.models';
-import { UsersI } from 'src/app/models/users.models';
-
 @Component({
   selector: 'app-typerequests',
   templateUrl: './typerequests.component.html',
@@ -64,16 +62,15 @@ export class TyperequestsComponent implements OnInit {
   typeRequestForm: FormGroup;
   typeRequests: TypeRequestsI[] = [];
   categories: CategoriesI[] = [];
-  rols: RolsI[] = [];
-  users: UsersI[] = [];
+  groups: GroupsI[] = [];
 
   constructor(private fb: FormBuilder) {
     // Inicialización del formulario reactivo
     this.typeRequestForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       category: [null, Validators.required],
-      rols: [null, Validators.required],
-      users: [null, Validators.required],
+      group_origin: [null, Validators.required],
+      group_destine: [null, Validators.required],
       fields: this.fb.array([]),
     });
     this.loadTypeRequests();
@@ -81,19 +78,14 @@ export class TyperequestsComponent implements OnInit {
 
   ngOnInit() {
     const savedCategories = localStorage.getItem('categories');
-    const savedRols = localStorage.getItem('rols');
-    const saveUsers = localStorage.getItem('users');
+    const savedGroups = localStorage.getItem('groups');
 
     if (savedCategories) {
       this.categories = JSON.parse(savedCategories);
     }
 
-    if (savedRols) {
-      this.rols = JSON.parse(savedRols);
-    }
-
-    if (saveUsers) {
-      this.users = JSON.parse(saveUsers);
+    if (savedGroups) {
+      this.groups = JSON.parse(savedGroups);
     }
   }
 

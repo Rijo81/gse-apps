@@ -3,6 +3,7 @@ export interface UsersI{
   name: string,
   email: string,
   rol:  string,
+  group_id: number,
   password: string,
   img?: string
 }
