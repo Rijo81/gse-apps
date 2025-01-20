@@ -15,19 +15,33 @@
 
 
   <ion-list>
-      @for (req of filteredRequestsMax; track $index) {
-        <ion-item>
-          <ion-avatar slot="start">
-            <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
-          </ion-avatar>
-            <ion-label>
-              <h3>{{req.formData.Nombre}}</h3>
-              <h3>{{req.formData.Edad}}</h3>
-              <h3>{{req.formData.Curso}}</h3>
-              <ion-img [src]="req.formData.IMG"></ion-img>
-            </ion-label>
-        </ion-item>
-      }
+    @for (req of filteredRequests; track $index) {
+      <ion-item>
+        <ion-avatar slot="start">
+          <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ req.typeName }}</h2>
+          <p>Origen: {{ req.group_origin.name }}</p>
+          <p>Detalles:</p>
+          <ul>
+            @for (key of objectKeys(req.formData); track $index) {
+              <li>
+                {{ key }}:
+                <ng-container *ngIf="isImage(req.formData[key]); else textContent">
+                  <ion-img [src]="req.formData[key]" alt="{{ key }}"></ion-img>
+                </ng-container>
+                <ng-template #textContent>
+                  {{ req.formData[key] }}
+                </ng-template>
+              </li>
+            }
+          </ul>
+        </ion-label>
+      </ion-item>
+    }
   </ion-list>
+
+
 
 </ion-content>

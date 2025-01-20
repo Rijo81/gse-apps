@@ -15,3 +15,11 @@ export interface FieldsRequestsI {
   type: 'string' | 'number' | 'document' | 'checkbox' | 'radiobutton' | 'list';
   options?: string[];
 }
+
+export interface RequestI {
+  id: number;
+  formData: Record<string, any>;
+  group_origin: { id: number; name: string; parentId?: number };
+  group_destine: { id: number; name: string; parentId?: number };
+  typeName: string;
+}
