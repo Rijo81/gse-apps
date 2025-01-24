@@ -12,3 +12,41 @@ ion-toolbar{
   --background: #283593;
   color: white;
 }
+
+
+ion-card {
+  margin: 1rem;
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  ion-card-subtitle {
+    font-size: 0.9rem;
+    color: gray;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: 0.5rem;
+      strong {
+        font-weight: bold;
+      }
+    }
+  }
+  ion-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
+//Size de la imagen
+
+.image-size {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Asegura que la imagen mantenga proporción dentro del espacio */
+  border-radius: 8px; /* Opcional, para esquinas redondeadas */
+}

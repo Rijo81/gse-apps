@@ -6,42 +6,39 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true" class="ion-padding">
-
   <ion-label>
     <h1 class="sub-title">Excusas de Estudiantes</h1>
   </ion-label>
 
-
-  <ion-list>
-    @for (req of filteredRequests; track $index) {
-      <ion-item>
-        <ion-avatar slot="start">
-          <img alt="Silhouette of a person's head" src="/assets/avatar.svg" />
-        </ion-avatar>
-        <ion-label>
-          <h2>{{ req.typeName }}</h2>
-          <p>Origen: {{ req.group_origin.name }}</p>
-          <p>Detalles:</p>
-          <ul>
-            @for (key of objectKeys(req.formData); track $index) {
-              <li>
-                {{ key }}:
-                <ng-container *ngIf="isImage(req.formData[key]); else textContent">
-                  <ion-img [src]="req.formData[key]" alt="{{ key }}"></ion-img>
-                </ng-container>
-                <ng-template #textContent>
-                  {{ req.formData[key] }}
-                </ng-template>
-              </li>
-            }
-          </ul>
-        </ion-label>
-      </ion-item>
-    }
-  </ion-list>
-
-
-
+  <ion-card *ngFor="let request of filteredRequests">
+    <ion-card-header>
+      <ion-card-title>{{ request.typeName }}</ion-card-title>
+      <ion-card-subtitle>
+        <strong>De:</strong> {{ request.group_origin.name }} |
+        <strong>Para:</strong> {{ request.group_destine.name }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <!-- Mostrar formData dinámicamente -->
+         @for (key of objectKeys(request.formData); track $index) {
+           <li>
+             <strong>{{ key }}:</strong>
+              <ng-container *ngIf="isImage(request.formData[key]); else nonImageContent">
+                <ion-img [src]="request.formData[key]" alt="{{ key }}" class="image-size"></ion-img>
+              </ng-container>
+             <ng-template #nonImageContent>
+               @if (isStringOrNumber(request.formData[key])) {
+                 <span> {{ request.formData[key] }}</span>
+               }
+               @if (!isStringOrNumber(request.formData[key])) {
+                 <span> {{ request.formData[key] }}</span>
+               }
+             </ng-template>
+           </li>
+         }
+      </ul>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
